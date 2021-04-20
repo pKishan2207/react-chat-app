@@ -19,7 +19,7 @@ io.on("connection", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
     if (error) return callback(error);
-    console.log(`${user} joined the ${room}`);
+    console.log(user, "joined the", room);
 
     socket.join(user.room);
 
@@ -56,7 +56,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
-    console.log(`${user} disconnected`);
+    console.log(user, "disconnected");
     if (user) {
       io.to(user.room).emit("message", {
         user: "admin",
