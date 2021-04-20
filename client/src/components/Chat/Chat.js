@@ -23,6 +23,7 @@ const Chat = ({ location }) => {
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
+    console.log(name, room, "Hows the jhosh at frontend");
     const connectionOptions = {
       "force new connection": true,
       reconnectionAttempts: "Infinity",
