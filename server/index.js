@@ -19,6 +19,7 @@ io.on("connection", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
     if (error) return callback(error);
+    console.log(`${user} joined the ${room}`);
 
     socket.join(user.room);
 
@@ -41,7 +42,7 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
-    console.log("user in index.js server side", user, message);
+    // console.log("user in index.js server side", user, message);
     if (user) {
       io.to(user.room).emit("message", { user: user.name, text: message });
       io.to(user.room).emit("roomData", {
@@ -55,7 +56,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
-    console.log(user, "disconnected");
+    console.log(`${user} disconnected`);
     if (user) {
       io.to(user.room).emit("message", {
         user: "admin",
